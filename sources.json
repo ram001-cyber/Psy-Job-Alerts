@@ -1,0 +1,20 @@
+[
+  {
+    "name": "NHM Tamil Nadu Notifications",
+    "url": "https://www.nhm.tn.gov.in/en/notification",
+    "type": "html",
+    "district": "Chennai/State"
+  },
+  {
+    "name": "ICMR Employment Opportunities",
+    "url": "https://www.icmr.gov.in/employment-opportunities",
+    "type": "html",
+    "district": "National/Chennai"
+  },
+  {
+    "name": "TNPSC Notifications",
+    "url": "https://www.tnpsc.gov.in/",
+    "type": "html",
+    "district": "State"
+  }
+]
