@@ -4,16 +4,19 @@ from bs4 import BeautifulSoup
 KEYWORDS = ["psychol", "counsel", "clinical psych", "psychiatr", "social work",
             "mental health", "psycho-oncology", "rehabilitation", "therapist"]
 
-def fetch_text(url):
+def fetch_text(url, name):
     try:
-        r = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0"})
+        r = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        print(f"[{name}] status={r.status_code}, length={len(r.text)}")
+        if r.status_code != 200:
+            return ""
         soup = BeautifulSoup(r.text, "lxml")
         return soup.get_text(separator=" ", strip=True)
     except Exception as e:
+        print(f"[{name}] FAILED: {e}")
         return ""
 
 def find_matches(text):
-    lower = text.lower()
     hits = []
     for line in text.split(". "):
         if any(k in line.lower() for k in KEYWORDS):
@@ -28,12 +31,13 @@ def main():
 
     new_findings = []
     for src in sources:
-        text = fetch_text(src["url"])
+        text = fetch_text(src["url"], src["name"])
         if not text:
             continue
         h = hashlib.md5(text.encode()).hexdigest()
         if seen.get(src["name"]) != h:
             matches = find_matches(text)
+            print(f"[{src['name']}] {len(matches)} keyword matches found")
             if matches:
                 new_findings.append({
                     "source": src["name"],
